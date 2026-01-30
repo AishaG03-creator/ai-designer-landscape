@@ -1,0 +1,628 @@
+#!/usr/bin/env node
+
+// Load environment variables
+import dotenv from 'dotenv';
+dotenv.config();
+
+/**
+ * Professional Tool Scout - Automated Discovery with Pending Queue
+ * 
+ * Fetches professional AI tools from curated RSS feeds using rss-parser library,
+ * filters for design-related products, categorizes them, and saves to pending_tools.ts
+ * for manual approval.
+ * 
+ * Sources:
+ * - Product Hunt: https://www.producthunt.com/feed
+ * - There's An AI For That: https://theresanaiforthat.com/feed
+ */
+
+
+import Parser from 'rss-parser';
+import { writeFileSync, readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Initialize Gemini AI
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
+
+// Initialize RSS parser
+const parser = new Parser({
+    timeout: 10000,
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; ToolScout/2.0)'
+    }
+});
+
+// Professional RSS feeds
+const FEEDS = {
+    productHunt: 'https://www.producthunt.com/feed',
+    theresAnAI: 'https://theresanaiforthat.com/feed'
+};
+
+// Design-related keywords for filtering (BROADENED)
+const DESIGN_KEYWORDS = [
+    'design', 'ui', 'ux', 'image', 'video', 'creative',
+    'workflow', 'prototype', 'figma', 'sketch', 'canvas',
+    'visual', 'graphic', 'photo', 'art', 'animation',
+    'mockup', 'wireframe', 'layout', 'typography', 'color',
+    // Broader keywords added
+    'ai', 'generator', 'app', 'assistant', 'web', 'tool',
+    'create', 'build', 'make', 'generate', 'platform'
+];
+
+// Category mapping based on keywords and descriptions
+const CATEGORY_RULES = [
+    {
+        id: '1',
+        keywords: ['research', 'insight', 'analysis', 'user research', 'survey', 'interview'],
+        title: 'Research, Discovery & Strategy'
+    },
+    {
+        id: '2',
+        keywords: ['ideation', 'brainstorm', 'concept', 'idea generation'],
+        title: 'Ideation & Concept Design'
+    },
+    {
+        id: '3',
+        keywords: ['ui', 'interface', 'prototype', 'wireframe', 'mockup', 'figma', 'sketch', 'design tool'],
+        title: 'UI Design & Prototyping'
+    },
+    {
+        id: '4',
+        keywords: ['copy', 'content', 'writing', 'text', 'microcopy', 'ux writing'],
+        title: 'Content, Microcopy & UX Writing'
+    },
+    {
+        id: '5',
+        keywords: ['prompt', 'llm', 'model', 'gpt', 'ai behavior', 'testing'],
+        title: 'Behavior Prototyping & Experimentation'
+    },
+    {
+        id: '6',
+        keywords: ['embedded', 'copilot', 'assistant', 'chatbot', 'conversational'],
+        title: 'Embedded in Product UI'
+    },
+    {
+        id: '7',
+        keywords: ['automation', 'workflow', 'zapier', 'integration', 'process'],
+        title: 'Workflow Automation & Operations'
+    },
+    {
+        id: '8',
+        keywords: ['code', 'developer', 'frontend', 'react', 'component', 'design-to-code', 'coding'],
+        title: 'Development & Design-to-Code'
+    },
+    {
+        id: '9',
+        keywords: ['analytics', 'dashboard', 'data', 'insights', 'bi', 'metrics'],
+        title: 'Analytics, Insights & BI'
+    },
+    {
+        id: '10',
+        keywords: ['safety', 'trust', 'governance', 'security', 'privacy', 'compliance'],
+        title: 'Trust, Safety & Governance'
+    },
+    {
+        id: '11',
+        keywords: ['personalization', 'a/b test', 'experiment', 'optimization'],
+        title: 'Personalization & Experimentation'
+    },
+    {
+        id: '12',
+        keywords: ['image', 'video', 'audio', 'voice', 'speech', 'multimodal', 'visual', 'generation'],
+        title: 'Multimodal AI (Beyond Text)'
+    }
+];
+
+/**
+ * Strips HTML tags from text
+ */
+function stripHtml(html) {
+    if (!html) return '';
+    return html
+        .replace(/<[^>]*>/g, '')
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&nbsp;/g, ' ')
+        .trim();
+}
+
+/**
+ * Sanitizes text by removing newlines and normalizing whitespace
+ */
+function sanitizeText(text) {
+    if (!text) return '';
+    return text
+        .replace(/\n/g, ' ')           // Replace newlines with spaces
+        .replace(/\r/g, ' ')           // Replace carriage returns with spaces
+        .replace(/\t/g, ' ')           // Replace tabs with spaces
+        .replace(/\s+/g, ' ')          // Collapse multiple spaces into one
+        .trim();
+}
+
+/**
+ * Checks if an item matches design-related keywords
+ */
+function isDesignRelated(item) {
+    const searchText = `${item.title || ''} ${item.description || ''}`.toLowerCase();
+
+    return DESIGN_KEYWORDS.some(keyword =>
+        searchText.includes(keyword.toLowerCase())
+    );
+}
+
+/**
+ * Categorizes a tool based on its title and description
+ */
+function categorizeTool(tool) {
+    const searchText = `${tool.title} ${tool.description}`.toLowerCase();
+
+    // Score each category
+    const scores = CATEGORY_RULES.map(category => {
+        const matchCount = category.keywords.filter(keyword =>
+            searchText.includes(keyword.toLowerCase())
+        ).length;
+
+        return {
+            categoryId: category.id,
+            categoryTitle: category.title,
+            score: matchCount
+        };
+    });
+
+    // Get the highest scoring category
+    scores.sort((a, b) => b.score - a.score);
+
+    // Default to Multimodal if no clear match
+    if (scores[0].score === 0) {
+        return { id: '12', title: 'Multimodal AI (Beyond Text)' };
+    }
+
+    return { id: scores[0].categoryId, title: scores[0].categoryTitle };
+}
+
+/**
+ * Uses Gemini AI to enhance tool description and suggest category
+ */
+async function enhanceToolWithAI(tool) {
+    try {
+        // Build category list for prompt
+        const categoryList = CATEGORY_RULES.map(cat =>
+            `${cat.id}: ${cat.title}`
+        ).join('\n');
+
+        // Use context (one-liner) if available, otherwise fall back to description
+        const inputText = tool.context || tool.description || '';
+
+        // Debugging output
+        console.log(`   🔍 Sending to Gemini: "${tool.title}" - "${inputText.substring(0, 80)}${inputText.length > 80 ? '...' : ''}"`);
+
+        const prompt = `You are an expert copywriter. I will give you a short product tagline. Rewrite it into a specific, 1-sentence value prop for a Product Designer. Do NOT use buzzwords.
+
+Tool Name: ${tool.title}
+Tagline: ${inputText}
+
+Available Categories:
+${categoryList}
+
+Tasks:
+1. Rewrite the tagline into ONE specific sentence that explains the value for a Product Designer
+2. Suggest the most appropriate Category ID from the list above
+
+Respond in this exact JSON format:
+{
+  "description": "your 1-sentence value proposition here",
+  "categoryId": "X"
+}`;
+
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = response.text();
+
+        // Extract JSON from response
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            const aiResponse = JSON.parse(jsonMatch[0]);
+
+            // Find the category details
+            const suggestedCategory = CATEGORY_RULES.find(cat => cat.id === aiResponse.categoryId);
+
+            return {
+                enhancedDescription: sanitizeText(aiResponse.description),
+                suggestedCategory: suggestedCategory || categorizeTool(tool),
+                aiEnhanced: true
+            };
+        }
+
+        // Fallback if parsing fails
+        console.log(`   ⚠️  AI response parsing failed for "${tool.title}", using fallback`);
+        return {
+            enhancedDescription: tool.context || tool.description || 'A new AI tool for designers',
+            suggestedCategory: categorizeTool(tool),
+            aiEnhanced: false
+        };
+
+    } catch (error) {
+        console.error(`   ❌ AI enhancement failed for "${tool.title}":`, error.message);
+
+        // Use the original context as the description
+        const fallbackDescription = tool.context || tool.description || 'A new AI tool for designers';
+
+        return {
+            enhancedDescription: fallbackDescription,
+            suggestedCategory: categorizeTool(tool),
+            aiEnhanced: false
+        };
+    }
+}
+
+/**
+ * Fetches and parses a feed with fallback logic
+ */
+async function fetchFeed(feedUrl, sourceName, limit = 10) {
+    console.log(`\n🔍 Fetching ${sourceName}...`);
+
+    try {
+        const feed = await parser.parseURL(feedUrl);
+
+        console.log(`✅ Found ${feed.items.length} items from ${sourceName}`);
+
+        // Extract and normalize items
+        const items = feed.items.slice(0, limit).map(item => {
+            const rawTitle = sanitizeText(stripHtml(item.title || ''));
+
+            // Logging for debugging
+            console.log('\n📋 Raw Title:', rawTitle);
+
+            // For Product Hunt: title format is "Tool Name - One Liner"
+            // Extract the context (one-liner) for better AI input
+            let toolName = rawTitle;
+            let context = '';
+
+            // FOR PRODUCT HUNT: Strictly parse title only (ignore content/summary)
+            if (sourceName === 'Product Hunt' && rawTitle.includes(' - ')) {
+                // Split by the LAST hyphen to handle names with hyphens
+                const lastDashIndex = rawTitle.lastIndexOf(' - ');
+                toolName = rawTitle.substring(0, lastDashIndex).trim();
+                context = rawTitle.substring(lastDashIndex + 3).trim(); // +3 to skip " - "
+                console.log('✅ Extracted Context:', context);
+            } else if (sourceName === 'Product Hunt') {
+                // No dash found - use fallback context
+                context = 'A new AI tool for designers';
+                console.log('⚠️  No dash found in title, using fallback context');
+            } else {
+                // For other sources, use description but clean it
+                const rawDescription = sanitizeText(stripHtml(item.contentSnippet || item.content || item.summary || ''));
+                context = rawDescription
+                    .replace(/Discussion\s*\|?\s*Link/gi, '')
+                    .replace(/\|\s*Link/gi, '')
+                    .replace(/Discussion\s*\|/gi, '')
+                    .trim();
+            }
+
+
+
+            return {
+                title: toolName,
+                context: context,
+                link: item.link || item.guid || '',
+                description: context || 'No description available', // Use context as description
+                pubDate: item.pubDate || item.isoDate || null
+            };
+        });
+
+        // Filter for design-related items
+        let designItems = items.filter(isDesignRelated);
+        console.log(`🎨 ${designItems.length} design-related items after filtering`);
+
+        // FALLBACK: If filter returns 0 results, force-add top 3 items
+        if (designItems.length === 0 && items.length > 0) {
+            console.log(`⚠️  No matches found - using fallback: adding top 3 items anyway`);
+            designItems = items.slice(0, 3);
+        }
+
+        return designItems.map(item => ({
+            ...item,
+            source: sourceName
+        }));
+
+    } catch (error) {
+        console.error(`❌ Error fetching ${sourceName}:`);
+        console.error(`   Error type: ${error.name}`);
+        console.error(`   Error message: ${error.message}`);
+        if (error.stack) {
+            console.error(`   Stack trace: ${error.stack.split('\n').slice(0, 3).join('\n')}`);
+        }
+        return [];
+    }
+}
+
+/**
+ * Reads existing pending tools from the file
+ */
+function readExistingPendingTools(filePath) {
+    try {
+        const fileContent = readFileSync(filePath, 'utf-8');
+
+        // Extract the array content using regex
+        const arrayMatch = fileContent.match(/export const PENDING_TOOLS: Partial<Category>\[\] = \[([\s\S]*?)\];/);
+
+        if (!arrayMatch || !arrayMatch[1].trim()) {
+            console.log('📝 No existing pending tools found, starting fresh');
+            return [];
+        }
+
+        // Parse the existing categories
+        const existingCategories = [];
+        const categoryRegex = /{\s*id:\s*'(\d+)',\s*title:\s*'([^']+)',\s*tools:\s*\[([\s\S]*?)\]\s*}/g;
+
+        let categoryMatch;
+        while ((categoryMatch = categoryRegex.exec(arrayMatch[1])) !== null) {
+            const categoryId = categoryMatch[1];
+            const categoryTitle = categoryMatch[2];
+            const toolsContent = categoryMatch[3];
+
+            const tools = [];
+            const toolRegex = /{\s*name:\s*'([^']+)',\s*url:\s*'([^']+)',\s*description:\s*'([^']*)',\s*dateAdded:\s*'([^']+)'/g;
+
+            let toolMatch;
+            while ((toolMatch = toolRegex.exec(toolsContent)) !== null) {
+                tools.push({
+                    name: toolMatch[1],
+                    url: toolMatch[2],
+                    description: toolMatch[3],
+                    dateAdded: toolMatch[4]
+                });
+            }
+
+            if (tools.length > 0) {
+                existingCategories.push({
+                    id: categoryId,
+                    title: categoryTitle,
+                    tools: tools
+                });
+            }
+        }
+
+        console.log(`📚 Found ${existingCategories.reduce((sum, cat) => sum + cat.tools.length, 0)} existing pending tools`);
+        return existingCategories;
+
+    } catch (error) {
+        if (error.code === 'ENOENT') {
+            console.log('📝 No existing pending_tools.ts file found, starting fresh');
+            return [];
+        }
+        console.error('⚠️  Error reading existing pending tools:', error.message);
+        return [];
+    }
+}
+
+/**
+ * Updates the pending_tools.ts file with new discoveries (append mode with deduplication)
+ */
+async function updatePendingTools(tools) {
+    const pendingFilePath = join(__dirname, '..', 'src', 'data', 'pending_tools.ts');
+
+    // Read existing pending tools
+    const existingCategories = readExistingPendingTools(pendingFilePath);
+
+    // Create a map of existing tools by URL for deduplication
+    const existingToolUrls = new Set();
+    existingCategories.forEach(category => {
+        category.tools.forEach(tool => {
+            existingToolUrls.add(tool.url);
+        });
+    });
+
+    // Group NEW tools by category (excluding duplicates) with AI enhancement
+    const newCategorizedTools = {};
+    let duplicateCount = 0;
+    let aiEnhancedCount = 0;
+
+    console.log('\n🤖 Enhancing tools with Gemini AI...\n');
+
+    for (const tool of tools) {
+        // Skip if URL already exists
+        if (existingToolUrls.has(tool.link)) {
+            duplicateCount++;
+            continue;
+        }
+
+        // Add 4-second delay to avoid rate limits
+        await new Promise(resolve => setTimeout(resolve, 4000));
+
+        // Use AI to enhance the tool
+        const enhancement = await enhanceToolWithAI(tool);
+        const category = enhancement.suggestedCategory;
+
+        if (enhancement.aiEnhanced) {
+            aiEnhancedCount++;
+            console.log(`   ✨ Enhanced: "${tool.title}" → Category ${category.id}`);
+        }
+
+        if (!newCategorizedTools[category.id]) {
+            newCategorizedTools[category.id] = {
+                id: category.id,
+                title: category.title,
+                tools: []
+            };
+        }
+
+        newCategorizedTools[category.id].tools.push({
+            name: sanitizeText(tool.title),
+            url: tool.link,
+            description: enhancement.enhancedDescription.substring(0, 150),
+            dateAdded: new Date().toISOString(),
+            source: tool.source
+        });
+    }
+
+    // Merge existing and new tools
+    const mergedCategories = {};
+
+    // Add existing tools first
+    existingCategories.forEach(category => {
+        mergedCategories[category.id] = {
+            id: category.id,
+            title: category.title,
+            tools: [...category.tools]
+        };
+    });
+
+    // Add new tools
+    Object.values(newCategorizedTools).forEach(category => {
+        if (mergedCategories[category.id]) {
+            // Append to existing category
+            mergedCategories[category.id].tools.push(...category.tools);
+        } else {
+            // Create new category
+            mergedCategories[category.id] = category;
+        }
+    });
+
+    const totalTools = Object.values(mergedCategories).reduce((sum, cat) => sum + cat.tools.length, 0);
+    const newToolsCount = tools.length - duplicateCount;
+
+    // Generate TypeScript code
+    let tsCode = `import { Category } from '../types';\n\n`;
+    tsCode += `/**\n`;
+    tsCode += ` * PENDING TOOLS - Holding Pen for Unapproved Discoveries\n`;
+    tsCode += ` * \n`;
+    tsCode += ` * Auto-generated by Tool Scout on ${new Date().toISOString()}\n`;
+    tsCode += ` * Total tools pending: ${totalTools}\n`;
+    tsCode += ` */\n\n`;
+    tsCode += `export const PENDING_TOOLS: Partial<Category>[] = [\n`;
+
+    Object.values(mergedCategories).forEach((category, index) => {
+        tsCode += `  {\n`;
+        tsCode += `    id: '${category.id}',\n`;
+        tsCode += `    title: '${category.title}',\n`;
+        tsCode += `    tools: [\n`;
+
+        category.tools.forEach((tool, toolIndex) => {
+            tsCode += `      {\n`;
+            tsCode += `        name: '${tool.name.replace(/'/g, "\\'")}',\n`;
+            tsCode += `        url: '${tool.url}',\n`;
+            tsCode += `        description: '${tool.description.replace(/'/g, "\\'")}',\n`;
+            tsCode += `        dateAdded: '${tool.dateAdded}'\n`;
+            if (tool.source) {
+                tsCode += `        // Source: ${tool.source}\n`;
+            }
+            tsCode += `      }${toolIndex < category.tools.length - 1 ? ',' : ''}\n`;
+        });
+
+        tsCode += `    ]\n`;
+        tsCode += `  }${index < Object.values(mergedCategories).length - 1 ? ',' : ''}\n`;
+    });
+
+    tsCode += `];\n`;
+
+    writeFileSync(pendingFilePath, tsCode);
+
+    console.log(`\n💾 Saved to pending_tools.ts:`);
+    console.log(`   ✨ ${newToolsCount} new tools added`);
+    console.log(`   🤖 ${aiEnhancedCount} AI-enhanced descriptions`);
+    console.log(`   🔄 ${duplicateCount} duplicates skipped`);
+    console.log(`   📊 ${totalTools} total tools pending review`);
+
+    return mergedCategories;
+}
+
+/**
+ * Main execution function
+ */
+async function runProfessionalScout() {
+    console.log('🚀 Professional Tool Scout Starting...');
+    console.log(`🎯 Filtering for: ${DESIGN_KEYWORDS.slice(0, 6).join(', ')}...`);
+    console.log(`⏰ Current time: ${new Date().toISOString()}\n`);
+
+    try {
+        // Fetch from both sources
+        const allItems = [];
+
+        const phItems = await fetchFeed(
+            FEEDS.productHunt,
+            'Product Hunt',
+            10
+        );
+        allItems.push(...phItems);
+
+        // Small delay between requests
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Wrap problematic feed in try/catch so it doesn't stop Product Hunt results
+        try {
+            const aiItems = await fetchFeed(
+                FEEDS.theresAnAI,
+                'There\'s An AI For That',
+                10
+            );
+            allItems.push(...aiItems);
+        } catch (error) {
+            console.log('⚠️  Skipping There\'s An AI For That feed due to parsing errors');
+        }
+
+
+        if (allItems.length === 0) {
+            console.log('\n⚠️  No tools found in current feeds.');
+            console.log('This could mean:');
+            console.log('  - Both feeds are temporarily unavailable');
+            console.log('  - Network connectivity issues');
+            console.log('  - The feeds have changed their format');
+            return;
+        }
+
+        // Update pending_tools.ts
+        const categorized = updatePendingTools(allItems);
+
+        // Generate report
+        const report = {
+            scrapedAt: new Date().toISOString(),
+            sources: ['Product Hunt', 'There\'s An AI For That'],
+            filterKeywords: DESIGN_KEYWORDS,
+            totalFound: allItems.length,
+            categorized: categorized,
+            tools: allItems
+        };
+
+        // Save JSON report
+        const reportPath = join(__dirname, '..', 'professional-tools-results.json');
+        writeFileSync(reportPath, JSON.stringify(report, null, 2));
+
+        // Print summary
+        console.log('\n' + '='.repeat(60));
+        console.log('📊 PROFESSIONAL TOOL SCOUT SUMMARY');
+        console.log('='.repeat(60));
+        console.log(`✅ Total tools found: ${report.totalFound}`);
+        console.log(`📁 Saved to: src/data/pending_tools.ts`);
+        console.log(`📄 Report: professional-tools-results.json\n`);
+
+        console.log('🎯 Tools by Category:\n');
+        Object.values(categorized).forEach(category => {
+            console.log(`  ${category.title}: ${category.tools.length} tools`);
+        });
+
+        console.log('\n✅ Professional Tool Scout completed successfully!');
+        console.log('👉 Review pending_tools.ts and approve tools to move to constants.ts');
+
+    } catch (error) {
+        console.error('❌ Professional Tool Scout failed:');
+        console.error(`   Error type: ${error.name}`);
+        console.error(`   Error message: ${error.message}`);
+        if (error.stack) {
+            console.error(`   Stack trace:\n${error.stack}`);
+        }
+        process.exit(1);
+    }
+}
+
+// Run the scout
+runProfessionalScout();

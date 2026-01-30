@@ -1,0 +1,125 @@
+{
+  "scrapedAt": "2026-01-30T06:38:57.043Z",
+  "sources": [
+    "Product Hunt",
+    "There's An AI For That"
+  ],
+  "filterKeywords": [
+    "design",
+    "ui",
+    "ux",
+    "image",
+    "video",
+    "creative",
+    "workflow",
+    "prototype",
+    "figma",
+    "sketch",
+    "canvas",
+    "visual",
+    "graphic",
+    "photo",
+    "art",
+    "animation",
+    "mockup",
+    "wireframe",
+    "layout",
+    "typography",
+    "color",
+    "ai",
+    "generator",
+    "app",
+    "assistant",
+    "web",
+    "tool",
+    "create",
+    "build",
+    "make",
+    "generate",
+    "platform"
+  ],
+  "totalFound": 10,
+  "categorized": {},
+  "tools": [
+    {
+      "title": "LiquidFetch",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/liquidfetch",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-28T11:21:57.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Willow on Windows",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/willow-voice",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-28T00:02:34.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Meteroid",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/meteroid-2",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-21T09:25:43.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Pandada AI",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/pandada-ai",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-14T07:27:35.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Kipps AI WhatsApp Agent",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/kipps-ai",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-02T08:43:55.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "AI Chrome Extension Builder",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/shipper-now",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-27T16:32:11.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "TravelAnimator",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/travel-animator",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-14T10:11:04.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "StoryCV",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/storycv",
+      "description": "A new AI tool for designers",
+      "pubDate": "2025-07-24T05:59:04.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Meet-Ting",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/meet-ting",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-13T17:38:36.000Z",
+      "source": "Product Hunt"
+    },
+    {
+      "title": "Fluent",
+      "context": "A new AI tool for designers",
+      "link": "https://www.producthunt.com/products/fluent-ai-writing-assistant-for-macos",
+      "description": "A new AI tool for designers",
+      "pubDate": "2026-01-20T15:02:26.000Z",
+      "source": "Product Hunt"
+    }
+  ]
+}

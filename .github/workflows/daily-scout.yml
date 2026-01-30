@@ -1,0 +1,38 @@
+name: Daily Tool Scout
+
+on:
+  schedule:
+    # Runs at 09:00 UTC every day
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allows you to click "Run Now" manually for testing
+
+jobs:
+  scout-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run Professional Scout
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/professional-tool-scout.js
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name 'Antigravity Bot'
+          git config --global user.email 'bot@antigravity.com'
+          git add src/data/pending_tools.ts
+          # Only commit if there are changes
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Daily Tool Scout Update" && git push)

@@ -1,0 +1,12 @@
+{
+    "name": "ai-designer-landscape-scripts",
+    "version": "1.0.0",
+    "description": "Background scripts for AI Designer Landscape tool discovery",
+    "type": "module",
+    "scripts": {
+        "scout": "node tool-scout.js"
+    },
+    "dependencies": {
+        "puppeteer": "^22.0.0"
+    }
+}
