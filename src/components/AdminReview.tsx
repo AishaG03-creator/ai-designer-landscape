@@ -22,12 +22,25 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
     const [errorMsg, setErrorMsg] = useState('');
     const [isApproving, setIsApproving] = useState(false);
 
+    // Debug: Check if env var is loaded
+    React.useEffect(() => {
+        const env = (import.meta as any).env;
+        console.log('VITE_ADMIN_PASSWORD is defined:', !!env.VITE_ADMIN_PASSWORD);
+    }, []);
+
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         // FIX: We cast to 'any' to bypass the TypeScript error seen in Screenshot 2
         const env = (import.meta as any).env;
+        const adminPassword = env.VITE_ADMIN_PASSWORD;
 
-        if (passwordInput === env.VITE_ADMIN_PASSWORD) {
+        // Check if password is configured
+        if (!adminPassword) {
+            setErrorMsg('Admin password not configured. Please set VITE_ADMIN_PASSWORD in Vercel.');
+            return;
+        }
+
+        if (passwordInput === adminPassword) {
             setIsAuthenticated(true);
             setErrorMsg('');
         } else {
