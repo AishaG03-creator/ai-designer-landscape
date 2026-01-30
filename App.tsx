@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { CATEGORIES } from './constants';
-// FIX: Ensure this path is correct. Usually it is './data/pending_tools' if App.tsx is in src/
-import { PENDING_TOOLS } from './data/pending_tools';
+// Import from src/data directory since App.tsx is in the root
+import { PENDING_TOOLS } from './src/data/pending_tools';
 import { Layout } from './components/Layout';
 import { CategoryCard } from './components/CategoryCard';
 import { DetailView } from './components/DetailView';
