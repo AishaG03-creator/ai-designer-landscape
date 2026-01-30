@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Category, Tool } from '../types';
+import { Category, Tool } from '../../types';
 import { Check, X, Search, Lightbulb, Layout, Type, Cpu, AppWindow, Workflow, Code, BarChart3, ShieldCheck, Users, Mic, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewMode } from '../types';
+import { ViewMode } from '../../types';
 import { LayoutGrid, List, Search, FolderPlus, Shield } from 'lucide-react';
 
 interface LayoutProps {

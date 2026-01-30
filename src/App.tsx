@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { CATEGORIES } from './constants';
+import { CATEGORIES } from '../constants';
 // Import from src/data directory since App.tsx is in the root
-import { PENDING_TOOLS } from './src/data/pending_tools';
+import { PENDING_TOOLS } from './data/pending_tools';
 import { Layout } from './components/Layout';
 import { CategoryCard } from './components/CategoryCard';
 import { DetailView } from './components/DetailView';
@@ -9,7 +9,7 @@ import { ToolIndex } from './components/ToolIndex';
 import { AddToolModal } from './components/AddToolModal';
 import { AddCategoryModal } from './components/AddCategoryModal';
 import { AdminReview } from './components/AdminReview'; // Ensure this matches your file
-import { ViewMode, Tool, Category } from './types';
+import { ViewMode, Tool, Category } from '../types';
 import { Search } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 
