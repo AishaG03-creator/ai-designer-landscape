@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Category, Tool } from '../types';
-import { Check, X, Search, Lightbulb, Layout, Type, Cpu, AppWindow, Workflow, Code, BarChart3, ShieldCheck, Users, Mic } from 'lucide-react';
+import { Check, X, Search, Lightbulb, Layout, Type, Cpu, AppWindow, Workflow, Code, BarChart3, ShieldCheck, Users, Mic, ExternalLink } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface PendingToolCardProps {
@@ -84,9 +84,20 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
             </div>
 
             <div className="flex-1 relative z-10">
+                {/* CLICKABLE TITLE SECTION */}
                 <h3 className="text-2xl font-bold mb-2 leading-tight tracking-tight transition-colors duration-300">
-                    {tool.name}
+                    <a
+                        href={tool.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 hover:underline decoration-2 underline-offset-4"
+                        onClick={(e) => e.stopPropagation()} // Prevents card hover issues
+                    >
+                        {tool.name}
+                        <ExternalLink size={18} strokeWidth={2.5} className="opacity-70" />
+                    </a>
                 </h3>
+
                 <p className={`text-xs ${descColorClass} font-medium mb-3 transition-colors duration-300 opacity-60`}>
                     → {category.title}
                 </p>
@@ -102,8 +113,8 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         onApprove(tool.name, category.id!);
                     }}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                            ? 'bg-green-600 text-white shadow-lg'
-                            : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
+                        ? 'bg-green-600 text-white shadow-lg'
+                        : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
                         }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -118,8 +129,8 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         onReject(tool.name, category.id!);
                     }}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                            ? 'bg-red-600 text-white shadow-lg'
-                            : 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
+                        ? 'bg-red-600 text-white shadow-lg'
+                        : 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
                         }`}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
