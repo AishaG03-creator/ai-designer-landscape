@@ -1,13 +1,14 @@
 import React, { useState, useMemo } from 'react';
 import { CATEGORIES } from './constants';
-import { PENDING_TOOLS } from './src/data/pending_tools';
+// FIX: Ensure this path is correct. Usually it is './data/pending_tools' if App.tsx is in src/
+import { PENDING_TOOLS } from './data/pending_tools';
 import { Layout } from './components/Layout';
 import { CategoryCard } from './components/CategoryCard';
 import { DetailView } from './components/DetailView';
 import { ToolIndex } from './components/ToolIndex';
 import { AddToolModal } from './components/AddToolModal';
 import { AddCategoryModal } from './components/AddCategoryModal';
-import { AdminReview } from './components/AdminReview';
+import { AdminReview } from './components/AdminReview'; // Ensure this matches your file
 import { ViewMode, Tool, Category } from './types';
 import { Search } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -100,39 +101,8 @@ function App() {
     }
   };
 
-  const handleApproveTool = (toolName: string, categoryId: string) => {
-    // Find the tool in pending
-    const pendingCategory = pendingTools.find(c => c.id === categoryId);
-    const tool = pendingCategory?.tools?.find(t => t.name === toolName);
-
-    if (!tool) return;
-
-    // Add to live categories
-    setCategories(prev => prev.map(cat => {
-      if (cat.id === categoryId) {
-        return { ...cat, tools: [tool, ...cat.tools] };
-      }
-      return cat;
-    }));
-
-    // Remove from pending
-    setPendingTools(prev => prev.map(cat => {
-      if (cat.id === categoryId) {
-        return { ...cat, tools: cat.tools?.filter(t => t.name !== toolName) || [] };
-      }
-      return cat;
-    }).filter(cat => cat.tools && cat.tools.length > 0));
-  };
-
-  const handleRejectTool = (toolName: string, categoryId: string) => {
-    // Remove from pending
-    setPendingTools(prev => prev.map(cat => {
-      if (cat.id === categoryId) {
-        return { ...cat, tools: cat.tools?.filter(t => t.name !== toolName) || [] };
-      }
-      return cat;
-    }).filter(cat => cat.tools && cat.tools.length > 0));
-  };
+  // NOTE: We don't need handleApproveTool/handleRejectTool here anymore 
+  // because the AdminReview component now handles the API logic internally.
 
   const renderContent = () => {
     return (
@@ -145,10 +115,10 @@ function App() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.3 }}
           >
+            {/* FIX: Pass setPendingTools instead of onApprove/onReject */}
             <AdminReview
               pendingTools={pendingTools}
-              onApprove={handleApproveTool}
-              onReject={handleRejectTool}
+              setPendingTools={setPendingTools}
             />
           </motion.div>
         ) : viewMode === 'tool-index' ? (
