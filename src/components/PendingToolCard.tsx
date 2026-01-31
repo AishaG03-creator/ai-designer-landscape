@@ -87,7 +87,7 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                 {/* CLICKABLE TITLE SECTION */}
                 <h3 className="text-2xl font-bold mb-2 leading-tight tracking-tight transition-colors duration-300">
                     <a
-                        href={tool.link}
+                        href={tool.url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 hover:underline decoration-2 underline-offset-4"

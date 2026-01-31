@@ -1,5 +1,5 @@
 {
-  "scrapedAt": "2026-01-30T06:38:57.043Z",
+  "scrapedAt": "2026-01-31T01:44:13.492Z",
   "sources": [
     "Product Hunt",
     "There's An AI For That"
@@ -42,83 +42,83 @@
   "categorized": {},
   "tools": [
     {
-      "title": "LiquidFetch",
+      "title": "Emra / Always on Transcription and PTT",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/liquidfetch",
+      "link": "https://www.producthunt.com/products/emra",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-28T11:21:57.000Z",
+      "pubDate": "2026-01-30T07:57:24.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Willow on Windows",
+      "title": "Kokori",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/willow-voice",
+      "link": "https://www.producthunt.com/products/kokori",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-28T00:02:34.000Z",
+      "pubDate": "2026-01-29T14:33:23.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Meteroid",
+      "title": "Geekflare API",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/meteroid-2",
+      "link": "https://www.producthunt.com/products/geekflare-api",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-21T09:25:43.000Z",
+      "pubDate": "2026-01-29T20:00:28.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Pandada AI",
+      "title": "Lost Post",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/pandada-ai",
+      "link": "https://www.producthunt.com/products/lost-post-worldwide-question-of-the-day",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-14T07:27:35.000Z",
+      "pubDate": "2026-01-27T15:54:14.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Kipps AI WhatsApp Agent",
+      "title": "Leapility",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/kipps-ai",
+      "link": "https://www.producthunt.com/products/leapility-3",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-02T08:43:55.000Z",
+      "pubDate": "2026-01-26T08:08:41.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "AI Chrome Extension Builder",
+      "title": "Archimyst",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/shipper-now",
+      "link": "https://www.producthunt.com/products/archimyst",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-27T16:32:11.000Z",
+      "pubDate": "2026-01-29T14:16:58.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "TravelAnimator",
+      "title": "Grok Imagine API",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/travel-animator",
+      "link": "https://www.producthunt.com/products/grok-3",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-14T10:11:04.000Z",
+      "pubDate": "2026-01-29T11:14:07.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "StoryCV",
+      "title": "Webhound Reports",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/storycv",
+      "link": "https://www.producthunt.com/products/webhound",
       "description": "A new AI tool for designers",
-      "pubDate": "2025-07-24T05:59:04.000Z",
+      "pubDate": "2026-01-28T00:19:06.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Meet-Ting",
+      "title": "Sheetsbase",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/meet-ting",
+      "link": "https://www.producthunt.com/products/sheetsbase-stop-googling-formulas",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-13T17:38:36.000Z",
+      "pubDate": "2026-01-18T02:01:17.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Fluent",
+      "title": "NMTV",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/fluent-ai-writing-assistant-for-macos",
+      "link": "https://www.producthunt.com/products/nmtv",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-20T15:02:26.000Z",
+      "pubDate": "2026-01-29T16:36:07.000Z",
       "source": "Product Hunt"
     }
   ]
