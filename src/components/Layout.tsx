@@ -173,7 +173,7 @@ export const Layout: React.FC<LayoutProps> = ({
               </button>
               <button
                 onClick={() => setViewMode('admin')}
-                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${viewMode === 'admin' ? 'bg-[#6366f1] text-white shadow-md' : 'text-[#6366f1]/60 hover:bg-[#6366f1]/10 hover:text-[#6366f1]'}`}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${viewMode === 'admin' ? 'bg-white text-[#1E1919] shadow-md' : 'text-white/40 hover:bg-white/5 hover:text-white'}`}
                 title="Admin Review"
               >
                 <Shield size={16} strokeWidth={1.5} />
