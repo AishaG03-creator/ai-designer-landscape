@@ -13,12 +13,6 @@ export const PENDING_TOOLS: Partial<Category>[] = [
     title: 'Research, Discovery & Strategy',
     tools: [
       {
-        name: 'Emra / Always on Transcription and PTT',
-        url: 'https://www.producthunt.com/products/emra',
-        description: 'Ensure zero data loss from user interviews and design discussions by continuously transcribing speech, allowing you to focus completely on the convers',
-        dateAdded: '2026-01-31T01:44:20.605Z'
-      },
-      {
         name: 'Dottie',
         url: 'https://www.producthunt.com/products/dottie',
         description: 'Dottie synthesizes unstructured user interviews and competitive analysis into prioritized feature recommendations ready for sketching.',
