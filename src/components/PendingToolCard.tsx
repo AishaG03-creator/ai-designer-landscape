@@ -27,20 +27,20 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
     // Softened dark grey background
     const DEFAULT_BG = '#262626';
 
-    // Amber color for pending status
-    const PENDING_COLOR = '#F59E0B';
+    // White/light color for card hover
+    const PENDING_COLOR = '#FFFFFF';
 
     // Calculate display colors
     const bgColor = isHovered ? PENDING_COLOR : DEFAULT_BG;
 
     // Text Color
-    const textColorClass = isHovered ? 'text-[#1E1919]' : 'text-white';
-    const descColorClass = isHovered ? 'text-[#1E1919]/80' : 'text-white/60';
+    const textColorClass = isHovered ? 'text-gray-900' : 'text-white';
+    const descColorClass = isHovered ? 'text-gray-700' : 'text-white/60';
 
     // Badge Background
     const badgeBgClass = isHovered
-        ? 'bg-black/5 text-[#1E1919]'
-        : 'bg-amber-500/20 text-amber-400';
+        ? 'bg-[#6366f1] text-white'
+        : 'bg-[#e0e7ff]/10 text-white';
 
     return (
         <motion.div
@@ -74,11 +74,11 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
 
             <div className="flex items-start justify-between mb-6 relative z-10">
                 <div className="p-2 -ml-2">
-                    <div className={`w-8 h-8 rounded-full ${isHovered ? 'bg-black/10' : 'bg-amber-500/20'} flex items-center justify-center`}>
+                    <div className={`w-8 h-8 rounded-full ${isHovered ? 'bg-[#6366f1]/10' : 'bg-[#e0e7ff]/10'} flex items-center justify-center`}>
                         <span className="text-lg">⏳</span>
                     </div>
                 </div>
-                <div className={`${badgeBgClass} px-2.5 py-1 rounded-sm backdrop-blur-sm transition-colors duration-300`}>
+                <div className={`${badgeBgClass} px-3 py-1.5 rounded-sm backdrop-blur-sm transition-colors duration-300`}>
                     <span className="text-[10px] font-bold uppercase tracking-wider">PENDING</span>
                 </div>
             </div>
@@ -113,7 +113,7 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         onApprove(tool.name, category.id!);
                     }}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                        ? 'bg-green-600 text-white shadow-lg'
+                        ? 'bg-green-600 text-white shadow-lg hover:bg-green-700'
                         : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
                         }`}
                     whileHover={{ scale: 1.02 }}
@@ -129,7 +129,7 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         onReject(tool.name, category.id!);
                     }}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                        ? 'bg-red-600 text-white shadow-lg'
+                        ? 'bg-red-600 text-white shadow-lg hover:bg-red-700'
                         : 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
                         }`}
                     whileHover={{ scale: 1.02 }}

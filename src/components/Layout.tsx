@@ -126,7 +126,7 @@ export const Layout: React.FC<LayoutProps> = ({
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-3xl font-extrabold tracking-tight leading-none group-hover:text-[#0061FE] transition-colors">AI Landscape</h1>
-              <span className="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-bold rounded-full">v1.0</span>
+              <span className="px-2 py-0.5 bg-[#e0e7ff]/10 text-[#6366f1] text-xs font-bold rounded-full">v1.0</span>
             </div>
             <p className="text-xs font-bold text-white/40 tracking-[0.2em] mt-2 ml-0.5">FOR DESIGNERS</p>
           </div>
@@ -173,7 +173,7 @@ export const Layout: React.FC<LayoutProps> = ({
               </button>
               <button
                 onClick={() => setViewMode('admin')}
-                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${viewMode === 'admin' ? 'bg-amber-500 text-[#1E1919] shadow-md' : 'text-amber-400/60 hover:bg-amber-500/10 hover:text-amber-400'}`}
+                className={`px-4 py-2 rounded-lg text-sm font-bold transition-all flex items-center gap-2 ${viewMode === 'admin' ? 'bg-[#6366f1] text-white shadow-md' : 'text-[#6366f1]/60 hover:bg-[#6366f1]/10 hover:text-[#6366f1]'}`}
                 title="Admin Review"
               >
                 <Shield size={16} strokeWidth={1.5} />
