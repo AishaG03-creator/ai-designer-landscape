@@ -115,24 +115,24 @@ export const Layout: React.FC<LayoutProps> = ({
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-[#333333] to-[#3E3E3E] text-[#F7F5F2]">
       {/* Top Header */}
-      <header className="flex-none px-6 py-6 flex items-center justify-between z-10 relative border-b border-white/5 bg-[#333333]/50 backdrop-blur-sm">
+      <header className="flex-none px-3 sm:px-6 py-4 sm:py-6 flex items-center justify-between z-10 relative border-b border-white/5 bg-[#333333]/50 backdrop-blur-sm">
         <div
-          className="flex items-center gap-4 cursor-pointer group"
+          className="flex items-center gap-2 sm:gap-4 cursor-pointer group"
           onClick={() => setViewMode('grid')}
         >
           <div className="transition-transform duration-300 group-hover:scale-105">
-            <LogoIcon width={55} />
+            <LogoIcon width={40} className="sm:w-[55px]" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-3xl font-extrabold tracking-tight leading-none group-hover:text-[#0061FE] transition-colors">AI Landscape</h1>
-              <span className="px-2 py-0.5 bg-[#e0e7ff]/10 text-[#6366f1] text-xs font-bold rounded-full">v1.0</span>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight leading-none group-hover:text-[#0061FE] transition-colors">AI Landscape</h1>
+              <span className="px-1.5 sm:px-2 py-0.5 bg-[#e0e7ff]/10 text-[#6366f1] text-[10px] sm:text-xs font-bold rounded-full">v1.0</span>
             </div>
-            <p className="text-xs font-bold text-white/40 tracking-[0.2em] mt-2 ml-0.5">FOR DESIGNERS</p>
+            <p className="text-[9px] sm:text-xs font-bold text-white/40 tracking-[0.15em] sm:tracking-[0.2em] mt-1 sm:mt-2 ml-0.5">FOR DESIGNERS</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-6 flex-1 max-w-2xl justify-end">
+        <div className="flex items-center gap-2 sm:gap-6 flex-1 max-w-2xl justify-end">
           {/* Search Bar */}
           <div className="relative w-full max-w-sm hidden sm:block group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#0061FE] transition-colors" size={18} strokeWidth={1.5} />
@@ -145,7 +145,7 @@ export const Layout: React.FC<LayoutProps> = ({
             />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {/* Add Category Button */}
             <button
               onClick={onAddCategory}
