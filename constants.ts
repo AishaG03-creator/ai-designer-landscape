@@ -27,6 +27,11 @@ export const CATEGORIES: Category[] = [
     isDark: false,
     iconName: 'Search',
     tools: [
+      {
+        name: 'Emra / Always on Transcription and PTT',
+        url: 'https://www.producthunt.com/products/emra',
+        description: 'Ensure zero data loss from user interviews and design discussions by continuously transcribing speech, allowing you to focus completely on the convers'
+      },
       { name: 'Dovetail AI', url: getLink('Dovetail AI'), description: 'Auto-tagging and sentiment analysis for user research repositories.', dateAdded: fixedDate(120) },
       { name: 'Condens AI', url: getLink('Condens AI'), description: 'Transcription and analysis automation for UX researchers.', dateAdded: fixedDate(140) },
       { name: 'EnjoyHQ', url: getLink('EnjoyHQ'), description: 'Centralize customer insights with AI-powered search and clustering.', dateAdded: fixedDate(200) },
