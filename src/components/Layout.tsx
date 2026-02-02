@@ -123,16 +123,15 @@ export const Layout: React.FC<LayoutProps> = ({
           <div className="transition-transform duration-300 group-hover:scale-105">
             <LogoIcon width={40} className="sm:w-[55px]" />
           </div>
-          <div>
+          <div className="hidden sm:block">
             <div className="flex items-center gap-1.5 sm:gap-2">
               <h1 className="text-xl sm:text-3xl font-extrabold tracking-tight leading-none group-hover:text-[#0061FE] transition-colors">AI Landscape</h1>
-              <span className="px-1.5 sm:px-2 py-0.5 bg-[#e0e7ff]/10 text-[#6366f1] text-[10px] sm:text-xs font-bold rounded-full">v1.0</span>
             </div>
             <p className="text-[9px] sm:text-xs font-bold text-white/40 tracking-[0.15em] sm:tracking-[0.2em] mt-1 sm:mt-2 ml-0.5">FOR DESIGNERS</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-6 flex-1 max-w-2xl justify-end">
+        <div className="flex items-center gap-2 sm:gap-6 flex-1 max-w-2xl justify-end ml-4 sm:ml-8">
           {/* Search Bar */}
           <div className="relative w-full max-w-sm hidden sm:block group">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-[#0061FE] transition-colors" size={18} strokeWidth={1.5} />
