@@ -110,6 +110,7 @@ function App() {
         {viewMode === 'admin' ? (
           <motion.div
             key="admin"
+            className="h-full"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

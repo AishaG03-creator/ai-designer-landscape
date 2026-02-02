@@ -27,8 +27,8 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
     // Softened dark grey background
     const DEFAULT_BG = '#262626';
 
-    // White/light color for card hover
-    const PENDING_COLOR = '#FFFFFF';
+    // Warm cream color for card hover
+    const PENDING_COLOR = '#fffbeb';
 
     // Calculate display colors
     const bgColor = isHovered ? PENDING_COLOR : DEFAULT_BG;
@@ -78,9 +78,11 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         <span className="text-lg">⏳</span>
                     </div>
                 </div>
-                <div className={`${badgeBgClass} px-3 py-1.5 rounded-sm backdrop-blur-sm transition-colors duration-300`}>
-                    <span className="text-[10px] font-bold uppercase tracking-wider">PENDING</span>
-                </div>
+                {!isHovered && (
+                    <div className={`${badgeBgClass} px-3 py-1.5 rounded-sm backdrop-blur-sm transition-all duration-300`}>
+                        <span className="text-[10px] font-bold uppercase tracking-wider">PENDING</span>
+                    </div>
+                )}
             </div>
 
             <div className="flex-1 relative z-10">
@@ -112,15 +114,12 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         e.stopPropagation();
                         onApprove(tool.name, category.id!);
                     }}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                        ? 'bg-green-600 text-white shadow-lg hover:bg-green-700'
-                        : 'bg-green-500/20 text-green-400 hover:bg-green-500/30'
-                        }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all bg-[#2a2a2a] text-white hover:bg-[#333333] border border-white/10"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                 >
-                    <Check size={16} strokeWidth={2.5} />
-                    <span>APPROVE</span>
+                    <Check size={16} strokeWidth={2} />
+                    <span>Approve</span>
                 </motion.button>
 
                 <motion.button
@@ -128,15 +127,12 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                         e.stopPropagation();
                         onReject(tool.name, category.id!);
                     }}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg font-bold text-sm transition-all ${isHovered
-                        ? 'bg-red-600 text-white shadow-lg hover:bg-red-700'
-                        : 'bg-red-500/20 text-red-400 hover:bg-red-500/30'
-                        }`}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all bg-[#2a2a2a] text-white hover:bg-[#333333] border border-white/10"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                 >
-                    <X size={16} strokeWidth={2.5} />
-                    <span>REJECT</span>
+                    <X size={16} strokeWidth={2} />
+                    <span>Reject</span>
                 </motion.button>
             </div>
         </motion.div>

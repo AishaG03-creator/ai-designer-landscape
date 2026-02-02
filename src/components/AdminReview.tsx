@@ -104,7 +104,7 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
     // --- LOCK SCREEN (The part from Screenshot 3) ---
     if (!isAuthenticated) {
         return (
-            <div className="h-full flex flex-col items-center justify-center">
+            <div className="h-full flex items-center justify-center p-4">
                 <div className="bg-gray-900 p-8 rounded-2xl border border-gray-800 w-full max-w-md text-center">
                     <div className="bg-gray-800 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Lock className="text-[#6366f1]" size={32} />
@@ -117,13 +117,13 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
                             type="password"
                             value={passwordInput}
                             onChange={(e) => setPasswordInput(e.target.value)}
-                            className="w-full bg-black/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-[#6366f1] outline-none"
+                            className="w-full bg-black/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:ring-2 focus:ring-white/20 outline-none transition-all"
                             placeholder="Password..."
                         />
                         {errorMsg && <p className="text-red-400 text-sm">{errorMsg}</p>}
                         <button
                             type="submit"
-                            className="w-full bg-[#6366f1] hover:bg-[#4f46e5] text-white font-bold py-3 rounded-lg transition-colors"
+                            className="w-full bg-[#2a2a2a] hover:bg-[#333333] text-white font-medium py-3 rounded-lg transition-all border border-white/10"
                         >
                             Unlock Dashboard
                         </button>
