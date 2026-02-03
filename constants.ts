@@ -28,6 +28,11 @@ export const CATEGORIES: Category[] = [
     iconName: 'Search',
     tools: [
       {
+        name: 'Ask Ellie',
+        url: 'https://www.producthunt.com/products/ask-ellie',
+        description: 'Ask Ellie summarizes large volumes of raw user research and interview transcripts, providing immediate, consolidated pain points and needs.'
+      },
+      {
         name: 'Dottie',
         url: 'https://www.producthunt.com/products/dottie',
         description: 'Dottie synthesizes unstructured user interviews and competitive analysis into prioritized feature recommendations ready for sketching.'
