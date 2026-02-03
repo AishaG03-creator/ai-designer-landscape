@@ -28,6 +28,11 @@ export const CATEGORIES: Category[] = [
     iconName: 'Search',
     tools: [
       {
+        name: 'Dottie',
+        url: 'https://www.producthunt.com/products/dottie',
+        description: 'Dottie synthesizes unstructured user interviews and competitive analysis into prioritized feature recommendations ready for sketching.'
+      },
+      {
         name: 'Emra / Always on Transcription and PTT',
         url: 'https://www.producthunt.com/products/emra',
         description: 'Ensure zero data loss from user interviews and design discussions by continuously transcribing speech, allowing you to focus completely on the convers'
