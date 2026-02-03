@@ -118,10 +118,15 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                     <select
                         value={selectedCategoryId}
                         onChange={(e) => setSelectedCategoryId(e.target.value)}
-                        className={`w-full px-3 py-2 rounded-md text-sm font-medium transition-all border ${isHovered
-                                ? 'bg-white border-gray-300 text-gray-900'
-                                : 'bg-[#1a1a1a] border-white/10 text-white'
+                        className={`w-full pl-3 pr-10 py-2 rounded-md text-sm font-medium transition-all border appearance-none bg-no-repeat bg-right ${isHovered
+                            ? 'bg-white border-gray-300 text-gray-900'
+                            : 'bg-[#1a1a1a] border-white/10 text-white'
                             } focus:outline-none focus:ring-2 focus:ring-[#6366f1] focus:border-transparent`}
+                        style={{
+                            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='${isHovered ? '%23374151' : '%23ffffff'}' d='M6 8L2 4h8z'/%3E%3C/svg%3E")`,
+                            backgroundPosition: 'right 0.75rem center',
+                            backgroundSize: '12px'
+                        }}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {allCategories.map((cat) => (
