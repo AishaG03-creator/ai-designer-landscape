@@ -13,12 +13,6 @@ export const PENDING_TOOLS: Partial<Category>[] = [
     title: 'Research, Discovery & Strategy',
     tools: [
       {
-        name: 'Dottie',
-        url: 'https://www.producthunt.com/products/dottie',
-        description: 'Dottie synthesizes unstructured user interviews and competitive analysis into prioritized feature recommendations ready for sketching.',
-        dateAdded: '2026-01-31T09:33:03.489Z'
-      },
-      {
         name: 'Hyta',
         url: 'https://www.producthunt.com/products/hyta',
         description: 'The tool synthesizes unstructured user feedback data into prioritized insights, directly informing your next design sprint objectives.',
