@@ -19,12 +19,6 @@ export const PENDING_TOOLS: Partial<Category>[] = [
         dateAdded: '2026-02-01T09:35:08.760Z'
       },
       {
-        name: 'Ask Ellie',
-        url: 'https://www.producthunt.com/products/ask-ellie',
-        description: 'Ask Ellie summarizes large volumes of raw user research and interview transcripts, providing immediate, consolidated pain points and needs.',
-        dateAdded: '2026-02-02T09:56:12.166Z'
-      },
-      {
         name: 'Helply',
         url: 'https://www.producthunt.com/products/helply',
         description: 'Helply analyzes user research summaries to automatically map out necessary feature flows and decision trees for your next design sprint.',
