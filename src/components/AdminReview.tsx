@@ -10,11 +10,13 @@ import { Inbox, Lock } from 'lucide-react';
 interface AdminReviewProps {
     pendingTools: Partial<Category>[];
     setPendingTools?: React.Dispatch<React.SetStateAction<Partial<Category>[]>>;
+    allCategories: Category[]; // Add all categories for dropdown
 }
 
 export const AdminReview: React.FC<AdminReviewProps> = ({
     pendingTools,
-    setPendingTools
+    setPendingTools,
+    allCategories
 }) => {
     // --- AUTHENTICATION STATE ---
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -173,6 +175,7 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
                                 tool={tool}
                                 onApprove={handleApprove}
                                 onReject={handleReject}
+                                allCategories={allCategories}
                                 index={index}
                             />
                         ))}

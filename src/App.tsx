@@ -120,6 +120,7 @@ function App() {
             <AdminReview
               pendingTools={pendingTools}
               setPendingTools={setPendingTools}
+              allCategories={categories}
             />
           </motion.div>
         ) : viewMode === 'tool-index' ? (

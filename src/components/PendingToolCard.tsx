@@ -8,6 +8,7 @@ interface PendingToolCardProps {
     tool: Tool;
     onApprove: (toolName: string, categoryId: string) => void;
     onReject: (toolName: string, categoryId: string) => void;
+    allCategories: Category[]; // Add all categories for dropdown
     index?: number;
 }
 
@@ -20,9 +21,11 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
     tool,
     onApprove,
     onReject,
+    allCategories,
     index = 0
 }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [selectedCategoryId, setSelectedCategoryId] = useState(category.id || '');
 
     // Softened dark grey background
     const DEFAULT_BG = '#262626';
@@ -106,13 +109,35 @@ export const PendingToolCard: React.FC<PendingToolCardProps> = ({
                 <p className={`text-sm ${descColorClass} font-medium leading-relaxed transition-colors duration-300`}>
                     {tool.description}
                 </p>
+
+                {/* Category Selector */}
+                <div className="mt-4 pt-4 border-t border-white/10">
+                    <label className={`block text-xs font-bold mb-2 transition-colors duration-300 ${isHovered ? 'text-gray-600' : 'text-white/50'}`}>
+                        ASSIGN TO CATEGORY
+                    </label>
+                    <select
+                        value={selectedCategoryId}
+                        onChange={(e) => setSelectedCategoryId(e.target.value)}
+                        className={`w-full px-3 py-2 rounded-md text-sm font-medium transition-all border ${isHovered
+                                ? 'bg-white border-gray-300 text-gray-900'
+                                : 'bg-[#1a1a1a] border-white/10 text-white'
+                            } focus:outline-none focus:ring-2 focus:ring-[#6366f1] focus:border-transparent`}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {allCategories.map((cat) => (
+                            <option key={cat.id} value={cat.id}>
+                                {cat.title}
+                            </option>
+                        ))}
+                    </select>
+                </div>
             </div>
 
             <div className="pt-6 mt-auto flex gap-2 relative z-10">
                 <motion.button
                     onClick={(e) => {
                         e.stopPropagation();
-                        onApprove(tool.name, category.id!);
+                        onApprove(tool.name, selectedCategoryId);
                     }}
                     className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md font-medium text-sm transition-all bg-[#2a2a2a] text-white hover:bg-[#333333] border border-white/10"
                     whileHover={{ scale: 1.01 }}
