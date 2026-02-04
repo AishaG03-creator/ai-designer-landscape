@@ -17,14 +17,7 @@ export const PENDING_TOOLS: Partial<Category>[] = [
         url: 'https://www.producthunt.com/products/hyta',
         description: 'The tool synthesizes unstructured user feedback data into prioritized insights, directly informing your next design sprint objectives.',
         dateAdded: '2026-02-01T09:35:08.760Z'
-      },
-      {
-        name: 'Helply',
-        url: 'https://www.producthunt.com/products/helply',
-        description: 'Helply analyzes user research summaries to automatically map out necessary feature flows and decision trees for your next design sprint.',
-        dateAdded: '2026-02-03T09:48:34.278Z'
-      }
-    ]
+      },]
   },
   {
     id: '2',
