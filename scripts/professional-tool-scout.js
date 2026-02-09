@@ -26,6 +26,11 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Parse command-line arguments
+const args = process.argv.slice(2);
+const FORCE_MODE = args.includes('--force');
+const MAX_PENDING_TOOLS = 10;
+
 // Initialize Gemini AI
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 const model = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
@@ -40,17 +45,20 @@ const parser = new Parser({
 
 // Professional RSS feeds
 const FEEDS = {
-    productHunt: 'https://www.producthunt.com/feed',
-    theresAnAI: 'https://theresanaiforthat.com/feed'
+    productHunt: 'https://www.producthunt.com/feed'
+    // Removed: theresAnAI - unreliable, consumer-focused
 };
 
-// Design-related keywords for filtering (BROADENED)
+// Design-related keywords for filtering (B2B-FOCUSED)
 const DESIGN_KEYWORDS = [
     'design', 'ui', 'ux', 'image', 'video', 'creative',
     'workflow', 'prototype', 'figma', 'sketch', 'canvas',
     'visual', 'graphic', 'photo', 'art', 'animation',
     'mockup', 'wireframe', 'layout', 'typography', 'color',
-    // Broader keywords added
+    // B2B-focused keywords added
+    'enterprise', 'business', 'team', 'collaboration', 'saas', 'b2b',
+    'professional', 'workspace', 'organization', 'company',
+    // Broader keywords
     'ai', 'generator', 'app', 'assistant', 'web', 'tool',
     'create', 'build', 'make', 'generate', 'platform'
 ];
@@ -414,6 +422,27 @@ async function updatePendingTools(tools) {
     // Read existing pending tools
     const existingCategories = readExistingPendingTools(pendingFilePath);
 
+    // Count total existing pending tools
+    const existingToolCount = existingCategories.reduce((sum, cat) => sum + cat.tools.length, 0);
+
+    // Check if pending queue is full (10-tool limit)
+    if (existingToolCount >= MAX_PENDING_TOOLS && !FORCE_MODE) {
+        console.log('\n⚠️  PENDING QUEUE FULL ⚠️');
+        console.log(`📊 Current pending tools: ${existingToolCount}/${MAX_PENDING_TOOLS}`);
+        console.log('🚫 Skipping new tool additions.');
+        console.log('👉 Approve or reject pending tools in the Admin Review panel to make room.');
+        console.log('💡 Use --force flag to override this limit if needed.\n');
+        return existingCategories;
+    }
+
+    // Calculate how many tools we can add
+    const availableSlots = MAX_PENDING_TOOLS - existingToolCount;
+    if (availableSlots < tools.length && !FORCE_MODE) {
+        console.log(`\n📊 Pending queue: ${existingToolCount}/${MAX_PENDING_TOOLS} tools`);
+        console.log(`⚠️  Only ${availableSlots} slot(s) available. Will add first ${availableSlots} tool(s).\n`);
+        tools = tools.slice(0, availableSlots);
+    }
+
     // Create a map of existing tools by URL for deduplication
     const existingToolUrls = new Set();
     existingCategories.forEach(category => {
@@ -558,25 +587,16 @@ async function runProfessionalScout() {
         // Small delay between requests
         await new Promise(resolve => setTimeout(resolve, 1000));
 
-        // Wrap problematic feed in try/catch so it doesn't stop Product Hunt results
-        try {
-            const aiItems = await fetchFeed(
-                FEEDS.theresAnAI,
-                'There\'s An AI For That',
-                10
-            );
-            allItems.push(...aiItems);
-        } catch (error) {
-            console.log('⚠️  Skipping There\'s An AI For That feed due to parsing errors');
-        }
+        // Note: Removed "There's An AI For That" feed - unreliable, consumer-focused
+        // Future: Add manual B2B curation from G2/StackShare
 
 
         if (allItems.length === 0) {
             console.log('\n⚠️  No tools found in current feeds.');
             console.log('This could mean:');
-            console.log('  - Both feeds are temporarily unavailable');
+            console.log('  - Product Hunt feed is temporarily unavailable');
             console.log('  - Network connectivity issues');
-            console.log('  - The feeds have changed their format');
+            console.log('  - The feed has changed its format');
             return;
         }
 
@@ -586,7 +606,7 @@ async function runProfessionalScout() {
         // Generate report
         const report = {
             scrapedAt: new Date().toISOString(),
-            sources: ['Product Hunt', 'There\'s An AI For That'],
+            sources: ['Product Hunt'],
             filterKeywords: DESIGN_KEYWORDS,
             totalFound: allItems.length,
             categorized: categorized,

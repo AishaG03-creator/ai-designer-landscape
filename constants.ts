@@ -72,6 +72,11 @@ export const CATEGORIES: Category[] = [
     isDark: false,
     iconName: 'Lightbulb',
     tools: [
+      {
+        name: 'Good Assistant',
+        url: 'https://www.producthunt.com/products/good-assistant',
+        description: 'Good Assistant rapidly converts sketched concepts or rough user flows into structured wireframes, allowing for quicker internal iteration cycles.'
+      },
       { name: 'ChatGPT', url: getLink('ChatGPT'), description: 'Brainstorming partner for generating initial concepts and scenarios.', dateAdded: fixedDate(300) },
       { name: 'Claude', url: getLink('Claude'), description: 'Excellent for refining concepts and generating detailed user narratives.', dateAdded: fixedDate(100) },
       { name: 'FigJam AI', url: getLink('FigJam AI'), description: 'Generate templates, stickies, and diagrams from text prompts.', dateAdded: fixedDate(90) },
@@ -95,6 +100,31 @@ export const CATEGORIES: Category[] = [
     isDark: true,
     iconName: 'Layout',
     tools: [
+      {
+        name: 'Amara',
+        url: 'https://www.producthunt.com/products/amara-3',
+        description: 'Amara translates raw interaction concepts and user flows into high-fidelity prototype screens ready for immediate usability testing.'
+      },
+      {
+        name: 'RUSTWA',
+        url: 'https://www.producthunt.com/products/rustwa',
+        description: 'RUSTWA automatically verifies your design drafts against accessibility standards and simulates their appearance on diverse device configurations befor'
+      },
+      {
+        name: 'Archimyst',
+        url: 'https://www.producthunt.com/products/archimyst',
+        description: 'Archimyst quickly generates multiple, high-fidelity screen variations from a basic sketch, allowing you to test complex user flows more rapidly.'
+      },
+      {
+        name: 'Leapility',
+        url: 'https://www.producthunt.com/products/leapility-3',
+        description: 'Leapility instantly converts your scribbled design concepts into functional, interactive prototypes ready for user testing.'
+      },
+      {
+        name: 'Kokori',
+        url: 'https://www.producthunt.com/products/kokori',
+        description: 'Kokori automatically generates and refines complete user interface layouts based on functional requirements, allowing designers to move directly into '
+      },
       { name: 'Figma AI', url: getLink('Figma AI'), description: 'Native AI features for generating layers, renaming, and prototyping connections.', dateAdded: fixedDate(30) },
       { name: 'Uizard', url: getLink('Uizard'), description: 'Turn sketches and text prompts into editable UI designs.', dateAdded: fixedDate(180) },
       { name: 'Galileo AI', url: getLink('Galileo AI'), description: 'Text-to-UI generation for high-fidelity mobile and web screens.', dateAdded: fixedDate(120) },
@@ -120,6 +150,11 @@ export const CATEGORIES: Category[] = [
     isDark: false,
     iconName: 'Type',
     tools: [
+      {
+        name: 'Pretty Prompt 1.0 Extension + Web App',
+        url: 'https://www.producthunt.com/products/pretty-prompt',
+        description: 'You can instantly optimize your generative AI prompts to reliably create production-ready microcopy, labels, and user guidance text for your product i'
+      },
       { name: 'Jasper', url: getLink('Jasper AI'), description: 'Enterprise-grade AI content platform for marketing and copy.', dateAdded: fixedDate(250) },
       { name: 'Copy.ai', url: getLink('Copy.ai'), description: 'Automate copywriting for marketing, blogs, and product descriptions.', dateAdded: fixedDate(240) },
       { name: 'Writer', url: getLink('Writer AI'), description: 'Full-stack generative AI platform for enterprise content.', dateAdded: fixedDate(200) },
@@ -214,6 +249,16 @@ export const CATEGORIES: Category[] = [
     isDark: false,
     iconName: 'Workflow',
     tools: [
+      {
+        name: 'ManePaw',
+        url: 'https://www.producthunt.com/products/manepaw',
+        description: 'Automatically generate accurate, developer-ready design specifications and documentation directly from your completed prototype, eliminating manual ha'
+      },
+      {
+        name: 'EasyClaw',
+        url: 'https://www.producthunt.com/products/dereference-the-100x-ide',
+        description: 'This tool automatically structures design files and component layers according to established style guides, eliminating manual cleanup before engineer'
+      },
       { name: 'Zapier', url: getLink('Zapier'), description: 'Connects apps to automate workflows.', dateAdded: fixedDate(300) },
       { name: 'Make', url: getLink('Make'), description: 'Visual platform for designing complex automated workflows.', dateAdded: fixedDate(250) },
       { name: 'n8n', url: getLink('n8n'), description: 'Workflow automation tool with fair-code licensing.', dateAdded: fixedDate(200) },
@@ -326,6 +371,11 @@ export const CATEGORIES: Category[] = [
     isDark: true,
     iconName: 'Mic',
     tools: [
+      {
+        name: 'Grok Imagine API',
+        url: 'https://www.producthunt.com/products/grok-3',
+        description: 'A new AI tool for designers'
+      },
       { name: 'OpenAI Vision', url: getLink('OpenAI Vision'), description: 'Visual understanding capabilities.', dateAdded: fixedDate(180) },
       { name: 'Runway', url: getLink('Runway ML'), description: 'AI tools for video generation and editing.', dateAdded: fixedDate(120) },
       { name: 'Midjourney', url: getLink('Midjourney'), description: 'High-quality image generation.', dateAdded: fixedDate(200) },

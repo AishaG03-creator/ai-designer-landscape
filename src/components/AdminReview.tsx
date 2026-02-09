@@ -51,9 +51,15 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
     };
 
     const handleApprove = async (toolName: string, categoryId: string) => {
-        // Safe check for tool existence
-        const category = pendingTools.find(c => c.id === categoryId);
-        const tool = category?.tools?.find(t => t.name === toolName);
+        // Find the tool across all pending categories (not just the target category)
+        let tool: Tool | undefined;
+        for (const cat of pendingTools) {
+            const foundTool = cat.tools?.find(t => t.name === toolName);
+            if (foundTool) {
+                tool = foundTool;
+                break;
+            }
+        }
 
         if (!tool) return;
 
@@ -159,8 +165,18 @@ export const AdminReview: React.FC<AdminReviewProps> = ({
 
             <div className="mb-6 px-2 flex justify-between items-end">
                 <div>
-                    <h2 className="text-4xl font-extrabold text-white mb-2 tracking-tight">Admin Review</h2>
-                    <p className="text-white/60 font-medium">Logged in as Admin</p>
+                    <div className="flex items-center gap-3 mb-2">
+                        <h2 className="text-4xl font-extrabold text-white tracking-tight">Admin Review</h2>
+                        <div className={`px-3 py-1 rounded-full text-sm font-bold ${totalPending >= 10 ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                                totalPending >= 8 ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
+                                    'bg-gray-700/50 text-gray-300 border border-gray-600/30'
+                            }`}>
+                            {totalPending}/10 pending
+                        </div>
+                    </div>
+                    <p className="text-white/60 font-medium">
+                        {totalPending >= 10 ? '🚫 Queue full - approve or reject tools to see new discoveries' : 'Logged in as Admin'}
+                    </p>
                 </div>
                 <button onClick={() => setIsAuthenticated(false)} className="text-sm text-gray-500 hover:text-white">Logout</button>
             </div>

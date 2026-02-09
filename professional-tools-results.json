@@ -1,8 +1,7 @@
 {
-  "scrapedAt": "2026-01-31T01:44:13.492Z",
+  "scrapedAt": "2026-02-05T17:11:50.216Z",
   "sources": [
-    "Product Hunt",
-    "There's An AI For That"
+    "Product Hunt"
   ],
   "filterKeywords": [
     "design",
@@ -26,6 +25,16 @@
     "layout",
     "typography",
     "color",
+    "enterprise",
+    "business",
+    "team",
+    "collaboration",
+    "saas",
+    "b2b",
+    "professional",
+    "workspace",
+    "organization",
+    "company",
     "ai",
     "generator",
     "app",
@@ -42,83 +51,83 @@
   "categorized": {},
   "tools": [
     {
-      "title": "Emra / Always on Transcription and PTT",
+      "title": "Voxtral Transcribe 2 by Mistral",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/emra",
+      "link": "https://www.producthunt.com/products/mistral-7b",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-30T07:57:24.000Z",
+      "pubDate": "2026-02-04T17:52:40.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Kokori",
+      "title": "GitScrum Studio for IDE",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/kokori",
+      "link": "https://www.producthunt.com/products/gitscrum-studio-for-ide",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-29T14:33:23.000Z",
+      "pubDate": "2026-02-04T12:29:26.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Geekflare API",
+      "title": "The new v0",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/geekflare-api",
+      "link": "https://www.producthunt.com/products/v0",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-29T20:00:28.000Z",
+      "pubDate": "2026-02-03T13:31:28.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Lost Post",
+      "title": "Supaboard",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/lost-post-worldwide-question-of-the-day",
+      "link": "https://www.producthunt.com/products/supaboard-ai",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-27T15:54:14.000Z",
+      "pubDate": "2026-01-19T12:31:17.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Leapility",
+      "title": "Webflow AI site builder",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/leapility-3",
+      "link": "https://www.producthunt.com/products/webflow",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-26T08:08:41.000Z",
+      "pubDate": "2026-01-23T19:58:12.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Archimyst",
+      "title": "Higgsfield Vibe-Motion",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/archimyst",
+      "link": "https://www.producthunt.com/products/higgsfield",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-29T14:16:58.000Z",
+      "pubDate": "2026-02-04T19:39:29.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Grok Imagine API",
+      "title": "Kling 3.0",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/grok-3",
+      "link": "https://www.producthunt.com/products/kling-ai-4",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-29T11:14:07.000Z",
+      "pubDate": "2026-02-05T07:04:58.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Webhound Reports",
+      "title": "GitHub Agent HQ",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/webhound",
+      "link": "https://www.producthunt.com/products/github",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-28T00:19:06.000Z",
+      "pubDate": "2026-02-05T04:27:29.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "Sheetsbase",
+      "title": "AI Bulk Analysis",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/sheetsbase-stop-googling-formulas",
+      "link": "https://www.producthunt.com/products/ai-bulk-analysis",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-18T02:01:17.000Z",
+      "pubDate": "2026-02-04T14:57:20.000Z",
       "source": "Product Hunt"
     },
     {
-      "title": "NMTV",
+      "title": "Agent Sandbox",
       "context": "A new AI tool for designers",
-      "link": "https://www.producthunt.com/products/nmtv",
+      "link": "https://www.producthunt.com/products/agent-sandbox",
       "description": "A new AI tool for designers",
-      "pubDate": "2026-01-29T16:36:07.000Z",
+      "pubDate": "2026-02-05T01:23:50.000Z",
       "source": "Product Hunt"
     }
   ]
