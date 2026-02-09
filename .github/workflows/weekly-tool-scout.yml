@@ -1,0 +1,64 @@
+name: Weekly Design Tool Scout
+
+on:
+  # Run every Monday at 9 AM UTC (1 AM PST / 4 AM EST)
+  schedule:
+    - cron: '0 9 * * 1'
+  
+  # Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
+
+jobs:
+  scout-tools:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run Design Feed Scout
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node scripts/design-feed-scout.js
+      
+      - name: Check for changes
+        id: git-check
+        run: |
+          git diff --exit-code src/data/pending_tools.ts || echo "changed=true" >> $GITHUB_OUTPUT
+      
+      - name: Commit and push if changed
+        if: steps.git-check.outputs.changed == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add src/data/pending_tools.ts
+          git commit -m "🤖 Weekly tool scout: Added new design tools"
+          git push
+      
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## 🎯 Weekly Design Tool Scout" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Run Date:** $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.git-check.outputs.changed }}" == "true" ]; then
+            echo "✅ **Status:** New tools discovered and added to pending queue" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "ℹ️ **Status:** No new tools found or queue is full" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Sources:** CSS-Tricks, A List Apart, Sidebar.io, Codrops, Web Designer News" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "👉 Review pending tools in the Admin Review panel" >> $GITHUB_STEP_SUMMARY
